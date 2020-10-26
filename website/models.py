@@ -24,3 +24,15 @@ class Profile(models.Model):
     @receiver(post_save, sender=User)
     def save_user_profile(sender, instance, **kwargs):
         instance.profile.save()
+
+class Post(models.Model):
+    projectname = models.CharField(max_length=155)
+    link = models.CharField(max_length=255)
+    projectinfo = models.CharField(max_length=255)
+    languages = models.CharField(max_length=200)
+    picture = CloudinaryField('image')
+    posted = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")
+    
+    def __str__(self):
+        return str(self.projectname)
