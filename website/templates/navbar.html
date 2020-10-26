@@ -37,21 +37,16 @@
           data-toggle="dropdown"
           aria-haspopup="true"
           aria-expanded="false"
-          >{{ user.username|title }}
-          <img
-            class="rounded-circle nav-img"
-            src="{{ user.profile.profile_picture.url }}"
-            alt=""
-          />
+          ><img class="rounded-circle" src="{{ user.profile.profile_picture.url }}" height ='30px' width='30px'  alt="">  {{ user.username|title }}
+         
         </a>
         <div
           class="dropdown-menu dropdown-primary"
           aria-labelledby="navbarDropdownMenuLink"
         >
-          <a class="dropdown-item text-center" href="#">Profile</a>
-          <hr />
-          <a class="dropdown-item text-center" href="#"> Edit profile</a>
-          <hr />
+          <a class="dropdown-item text-center" href="{% url 'profile' user.username %}">Profile</a>
+                        <hr>
+                        <a class="dropdown-item text-center" href="{% url 'edit' user.username  %}"> Edit profile</a>
           <a
             href="/accounts/logout"
             class="text-secondary text-center dropdown-item"

@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'website',
     'crispy_forms',
     'fontawesome_5',
-    'bootstrap4'
+    'bootstrap4',
+    'cloudinary',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
