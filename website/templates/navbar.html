@@ -1,7 +1,76 @@
-<nav class="navbar navbar-light bg-light">
-  <a class="navbar-brand">AWWARDS</a>
-  <form class="form-inline">
-    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-  </form>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="/">
+    <strong class="mr-4 brand"> Awwards</strong></a
+  >
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-toggle="collapse"
+    data-target="#navbarText"
+    aria-controls="navbarText"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarText">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <form class="form-inline my-2 my-lg-0" role="search" action="#">
+          <input
+            class="form-control my-2 my-sm-0 search-input"
+            name="username"
+            type="search"
+            placeholder="Search"
+            aria-label="Search"
+          />
+        </form>
+      </li>
+    </ul>
+    <ul class="navbar-nav navbar-right">
+      {% if user.is_authenticated%}
+      <li class="nav-item dropdown">
+        <a
+          class="nav-link dropdown-toggle"
+          id="navbarDropdownMenuLink"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+          >{{ user.username|title }}
+          <img
+            class="rounded-circle nav-img"
+            src="{{ user.profile.profile_picture.url }}"
+            alt=""
+          />
+        </a>
+        <div
+          class="dropdown-menu dropdown-primary"
+          aria-labelledby="navbarDropdownMenuLink"
+        >
+          <a class="dropdown-item text-center" href="#">Profile</a>
+          <hr />
+          <a class="dropdown-item text-center" href="#"> Edit profile</a>
+          <hr />
+          <a
+            href="/accounts/logout"
+            class="text-secondary text-center dropdown-item"
+            >Log Out</a
+          >
+        </div>
+      </li>
+      {% else %}
+      <a href="{% url 'login' %}" class="login btn btn-sm"
+        >Are you a member? Register/Login
+      </a>
+      {% endif %}
+      <button
+        class="btn btn-sm"
+        id="site"
+        data-toggle="modal"
+        data-target=".bd-example-modal-xl"
+      >
+        Submit your project
+      </button>
+    </ul>
+  </div>
 </nav>
