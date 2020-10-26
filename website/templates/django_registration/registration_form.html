@@ -2,40 +2,35 @@
 {% block content %}
 {% load static %}
 {% load bootstrap4 %}
-<div class="container">
-  <div class="row">
-    <!-- Empty div -->
-    <div class="col-md-4"></div>
-    <div class="col-md-4">
-      {% if form.errors %}
-        <p> Some Information Might be Incorrect </p>
-      {% endif %}
-      <div class="panel panel-default">
-
-        <div class="panel-heading">
-          <h3 class="text-center">Sign Up</h3>
-        </div>
-        <div class="panel-body">
-
-          <form  action="/accounts/register/" method="post">
-            {% csrf_token %}
-            {% bootstrap_form form %}
-            <div class="form-group">
-              <input type="submit" class="btn btn-primary btn-sm" value="Sign Up">
+{% load crispy_forms_tags %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                
+                <div class="card-body mr-3 ml-3">
+                    <p class="text-center text-secondary">Sign up to rate projects
+                    </p>
+                    <form action="" method="post" novalidate>
+                        {% csrf_token%}
+                       {{ form|crispy }}
+                        <button type="submit" class="btn btn-primary btn-sm"> Sign up</button>
+                    </form>
+                </div>
+                
             </div>
-
-            <input type="hidden" name="next" value="{{next}}">
-
-          </form>
-
+            <div class="card mt-2">
+                <div class="card-body mt-3 mr-3 ml-3">
+                    <p>Have an account? <a href="{% url 'login' %}">Log in</a></p>
+                </div>
+            </div>
+            
+            </div>
         </div>
 
-      </div>
-
+        <div class="col-md-4"></div>
     </div>
-    <!-- empty div -->
-    <div class="col-md-4"></div>
-  </div>
 </div>
 
 {% endblock %}
