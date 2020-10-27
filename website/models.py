@@ -36,14 +36,19 @@ class Post(models.Model):
     def __str__(self):
         return str(self.projectname) if self.projectname else ''
 
+    @classmethod
+    def search_post(cls,search_term):
+        
+        posts = cls.objects.filter( projectname__icontains=search_term)
+        return posts
+
 class Rate(models.Model):
-    design = models.CharField(max_length=30)
-    usability = models.CharField(max_length=8)
-    creativity = models.CharField(max_length=8,blank=True,null=True)
-    average = models.FloatField(max_length=8)
+    design = models.IntegerField(null=True)
+    usability = models.IntegerField(null=True)
+    content = models.IntegerField(null=True)
+    total =  models.FloatField(max_length=8, blank=True,null=True)
     user = models.ForeignKey(User,null = True, on_delete=models.CASCADE)
     post = models.ForeignKey(Post,related_name='rate',null=True, on_delete=models.CASCADE)
 
 
-    def __str__(self):
-        return self.design
+    
