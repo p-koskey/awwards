@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="card" style="margin-top:10%;">
+
+                <div class="card-image waves-effect waves-block waves-light">
+                    <img class="img-responsive" src="{{post.picture.url}}" alt="Card image cap" width="100%;"
+                        height="400px;">
+                </div>
+
+                <div class="card-content">
+                    <span class="card-title activator grey-text text-darken-4">{{post.projectname|title}}
+                    <p class="card-title">{{post.projectinfo}}
+   </p>
+                     <p class="card-footer " ><img class="rounded-circle" src="{{post.user.profile.profile_picture.url}}"  height ='30px' width='30px' alt="">
+        {{post.user.username|title}} <span style="float:right">{{post.posted|date}}</span>
+                </p>
+                   
+                </div>
+                            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+</div>
+{% endblock %}
