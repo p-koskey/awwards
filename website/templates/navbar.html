@@ -17,12 +17,12 @@
   <div class="collapse navbar-collapse" id="navbarText">
     <ul class="navbar-nav mr-auto ml-auto">
       <li class="nav-item active">
-        <form class="form-inline my-2 my-lg-0" role="search" action="#">
+        <form class="form-inline my-2 my-lg-0" role="search" action="{% url 'search_results'%}">
           <input
             class="form-control my-2 my-sm-0 search-input"
-            name="username"
+            name="post"
             type="search"
-            placeholder="Search"
+            placeholder="Search Projects"
             aria-label="Search"
           />
         </form>
@@ -30,6 +30,7 @@
     </ul>
     <ul class="navbar-nav navbar-right">
       {% if user.is_authenticated%}
+      
       <li class="nav-item dropdown">
         <a
           class="nav-link dropdown-toggle"
@@ -54,19 +55,21 @@
           >
         </div>
       </li>
-      {% else %}
-      <a href="{% url 'login' %}" class="login btn btn-sm"
-        >Are you a member? Register/Login
-      </a>
-      {% endif %}
-      <button
-        class="btn btn-sm"
+       <button
+        class="ml-4 btn btn-info" 
        
         data-toggle="modal"
         data-target="#project"
       >
         Submit your project
       </button>
+    
+      {% else %}
+      <a href="{% url 'login' %}" class="login btn btn-sm"
+        >Are you a member? Register/Login
+      </a>
+      {% endif %}
+     
     </ul>
   </div>
 </nav>
