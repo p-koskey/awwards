@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from cloudinary.models import CloudinaryField
-from .models import Post, Profile
+from .models import Post, Profile, Rate
 
 class RegisterForm(UserCreationForm):
     email = forms.EmailField(max_length=254)
@@ -28,4 +28,9 @@ class UpdateUserForm(forms.ModelForm):
 class UpdateProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['fullname', 'location', 'profile_picture', 'bio', 'email']
+        fields = ['fullname', 'location', 'profile_picture', 'bio']
+
+class RateForm(forms.ModelForm):
+    class Meta:
+        model =Rate
+        fields= ['design','usability','creativity','average']
