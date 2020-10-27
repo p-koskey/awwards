@@ -1,4 +1,5 @@
 from django import forms
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from cloudinary.models import CloudinaryField
@@ -31,6 +32,10 @@ class UpdateProfileForm(forms.ModelForm):
         fields = ['fullname', 'location', 'profile_picture', 'bio']
 
 class RateForm(forms.ModelForm):
+    design = forms.ChoiceField(choices=[(x, x) for x in range(0, 11)])
+    usability = forms.ChoiceField(choices=[(x, x) for x in range(0, 11)])
+    content = forms.ChoiceField(choices=[(x, x) for x in range(0, 11)])
     class Meta:
         model =Rate
-        fields= ['design','usability','creativity','average']
+        fields= ['design','usability','content']
+        
