@@ -4,13 +4,13 @@ from django.http  import HttpResponseRedirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
-from .forms import RegisterForm, PostForm,UpdateUserForm,UpdateProfileForm
-from .models import Post,Profile, User
+from .forms import RegisterForm, PostForm,UpdateUserForm,UpdateProfileForm, RateForm
+from .models import Post,Profile, User,Rate
 # Create your views here.
 
 def welcome(request):
-    posts = Post.objects.all()
-    
+    posts = Post.objects.all().order_by("-posted")
+
     if request.method == 'POST':
         uform = PostForm(request.POST, request.FILES)
         if uform.is_valid():
@@ -20,7 +20,7 @@ def welcome(request):
             return HttpResponseRedirect(request.path_info)
     else:
         uform = PostForm()
-    return render(request, 'index.html',{'uform': uform})
+    return render(request, 'index.html',{'uform': uform,'posts':posts})
     
 
 def register(request):
@@ -60,3 +60,10 @@ def edit_profile(request, username):
         'prof_form': prof_form
     }
     return render(request, 'editprofile.html', params)
+
+def postdetail(request,post_id):
+
+    post= Post.objects.get(pk=post_id)
+    
+       
+    return render(request,"postdetail.html", {'post':post})
