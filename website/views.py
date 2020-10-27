@@ -6,12 +6,14 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
 from .forms import RegisterForm, PostForm,UpdateUserForm,UpdateProfileForm, RateForm
 from .models import Post,Profile, User,Rate
+import random
 # Create your views here.
 
 
 def welcome(request):
     posts = Post.objects.all().order_by("-posted")
-
+    rpost = random.randint(0, len(posts)-1)
+    randompost = posts[rpost]
     if request.method == 'POST':
         uform = PostForm(request.POST, request.FILES)
         if uform.is_valid():
@@ -21,7 +23,7 @@ def welcome(request):
             return HttpResponseRedirect(request.path_info)
     else:
         uform = PostForm()
-    return render(request, 'index.html',{'uform': uform,'posts':posts})
+    return render(request, 'index.html',{'uform': uform,'posts':posts,'randompost':randompost})
     
 
 def register(request):

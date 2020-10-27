@@ -3,6 +3,21 @@
 {% load static %}
 {% load bootstrap4 %}
 <div class="container-fluid" >
+  <a href="{% url 'details' post_id=randompost.id%}">
+        <div class="card m-4" >
+  <img src="{{ randompost.picture.url}}" class="card-img-top" alt="{{randompost.projectname}}" style=" width:100%;
+   height:550px;
+   object-fit:cover;
+   object-position:50% 50%;">
+  <div class="card-body">
+  <h5 class="card-title">{{randompost.projectname|title}} 
+  <a class='float-right' href="{{randompost.link}} " target="_blank">Visit Site</a>
+   </h5> 
+     <p class="card-footer " ><img class="rounded-circle" src="{{randompost.user.profile.profile_picture.url}}"  height ='30px' width='30px' alt="">
+        {{randompost.user.username|title}} <span style="float:right">{{randompost.posted|date}}</span>
+                </p>
+  </div>
+</div></a>
     <h1 class="text-center hello">Projects</h1>
    
     {% if posts %}
@@ -10,7 +25,10 @@
         {% for post in posts %}
         <a href="{% url 'details' post_id=post.id%}">
         <div class="card col-lg-3 col-md-2 m-2 p-2" >
-  <img src="{{ post.picture.url}}" class="card-img-top" width='auto' height='300' alt="{{post.projectname}}">
+  <img src="{{ post.picture.url}}" class="card-img-top" alt="{{post.projectname}}" style=" width:100%;
+   height:550px;
+   object-fit:cover;
+   object-position:50% 50%;">
   <div class="card-body">
   <h5 class="card-title">{{post.projectname|title}}
   <a class='float-right' href="{{post.link}} " target="_blank">Visit Site</a>
