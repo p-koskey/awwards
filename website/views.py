@@ -67,39 +67,51 @@ def edit_profile(request, username):
 def postdetail(request,post_id):
 
     post= Post.objects.get(pk=post_id)
-    if request.method == 'POST':
-        form = RateForm(request.POST, request.FILES)
+    ratings = Rate.objects.filter(post_id=post_id)
+    design = Rate.objects.filter(post_id=post_id).values_list('design',flat=True)
+    usability = Rate.objects.filter(post_id=post_id).values_list('usability',flat=True)
+    content = Rate.objects.filter(post_id=post_id).values_list('content',flat=True)
+    total_design=0
+    total_usability=0
+    total_content = 0
+    print(design)
+    for rate in design:
+        total_design+=rate
+    print(total_design)
+
+    for rate in usability:
+        total_usability+=rate
+    print(total_usability)
+
+    
+    for rate in content:
+        total_content+=rate
+    print(total_content)
+
+    total=(total_design+total_content+total_usability)/3
+
+
+    post.design = total_design
+    post.usability = total_usability
+    post.content = total_content
+    post.total = total
+
+    post.save()
+
+
+    if request.method =='POST':
+        form = RateForm(request.POST,request.FILES)
         if form.is_valid():
-            post_ratings = Rate.objects.filter(post=post)
-            design = Rating.objects.filter(post=post).values_list('design',flat=True)
-            usability = Rating.objects.filter(post=post).values_list('usability',flat=True)
-            creativity = Rating.objects.filter(post=post).values_list('creativity',flat=True)
-            content = Rating.objects.filter(post=post).values_list('content',flat=True)
             rate = form.save(commit=False)
+            rate.post= post
             rate.user = request.user
+            rate.total = (rate.design+rate.usability+rate.content)/2
             rate.save()
-            for rate in design:
-                total_design+=rate
-            rate.designaverage = total_design/len(rate)
-            print(total_design)
-
-            for rate in usability:
-                total_usability+=rate
-            rate.usabilityaverage = total_usability/len(rate)
-            print(total_usability)
-
-            for rate in content:
-                total_content+=rate
-            rate.contentaverage = total_content/len(rate)
-            print(total_content)
-
-            rate.total=(rate.designaverage+rate.usabilityaverage+rate.contentaverag)/3
-            rate.save()
-        return HttpResponseRedirect(request.path_info)
     else:
         form = RateForm()
+
        
-    return render(request,"postdetail.html", {'post':post, 'form':form})
+    return render(request,"postdetail.html", {'post':post,"ratings":ratings, 'form':form,})
 @login_required(login_url='/accounts/login/')
 def search_results(request):
     current_user = request.user

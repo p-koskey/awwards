@@ -19,9 +19,17 @@
                      <p class="card-footer " ><img class="rounded-circle" src="{{post.user.profile.profile_picture.url}}"  height ='30px' width='30px' alt="">
         {{post.user.username|title}} <span style="float:right">{{post.posted|date}}</span>
                 </p>
-                  <a class="nav-item"> <button class="btn btn-info" data-toggle="modal" data-target="#rate"  >
+                <div>
+                 <button class="btn btn-info m-4 float-right" data-toggle="modal" data-target="#rate"  >
         Rate this Project
-      </button></a>
+      </button>
+      {% for ratings in ratings %}
+      <h6 class="float-left text-primary m-4">Design : {{ratings.design}}</h6>
+      <h6 class="float-left text-success m-4">Usability : {{ratings.usability}} </h6>
+      <h6 class="float-left text-danger m-4">Content : {{ratings.content}}</h6>
+      
+      </div>
+      <h5 class="float-left mb-4" >Total Score: {{ratings.total}}</h5>{% endfor%}
                 </div>
                             </div>
         </div>
@@ -37,22 +45,7 @@
                     {{ form|crispy }}
                     <button class="btn btn-sm btn-primary">Rate</button>
                 </form>
-                 {% for rate in post.rate.all %}
-                    {% if forloop.counter is post.rate.all.count %}
-                    <a class="btn btn-info btn-sm" ><h5>{{ rate.score }}</h5>
-                        <span class="sc">Average Score</span>
-                    </a>
-                    <a class="btn btn-outline-success btn-sm" ><h5>{{ rate.designaverage }}</h5>
-                        <span class="sc">Design Average</span>
-                    </a>
-                    <a class="btn btn-outline-primary btn-sm" id="u"><h5>{{ rate.usabilityaverage }}</h5>
-                        <span class="sc">Usability Average</span>
-                    </a>
-                    <a class="btn btn-outline-danger btn-sm" id="c"><h5>{{ rate.contentaverage }}</h5>
-                        <span class="sc">Content Average</span>
-                    </a>
-                    {% endif %}
-                    {% endfor %}
+                 
             </div>
         </div>
     </div>
