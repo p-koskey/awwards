@@ -11,7 +11,6 @@ class Profile(models.Model):
     fullname = models.CharField(blank=True, max_length=120)
     location = models.CharField(max_length=60, blank=True)
     profile_picture = CloudinaryField('image')
-    email = models.EmailField(max_length=100, blank=True)
 
     def __str__(self):
         return f'{self.user.username} Account'
@@ -35,4 +34,16 @@ class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")
     
     def __str__(self):
-        return str(self.projectname)
+        return str(self.projectname) if self.projectname else ''
+
+class Rate(models.Model):
+    design = models.CharField(max_length=30)
+    usability = models.CharField(max_length=8)
+    creativity = models.CharField(max_length=8,blank=True,null=True)
+    average = models.FloatField(max_length=8)
+    user = models.ForeignKey(User,null = True, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post,related_name='rate',null=True, on_delete=models.CASCADE)
+
+
+    def __str__(self):
+        return self.design
