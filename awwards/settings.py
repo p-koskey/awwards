@@ -148,7 +148,7 @@ cloudinary.config(
 )
 
 LOGOUT_REDIRECT_URL = "login"
-
+LOGIN_REDIRECT_URL="welcome"
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
