@@ -6,6 +6,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
 from .forms import RegisterForm, PostForm,UpdateUserForm,UpdateProfileForm, RateForm
 from .models import Post,Profile, User,Rate
+from rest_framework import viewsets
+from rest_framework import permissions
+from .serializers import ProfileSerializer, UserSerializer, PostSerializer
 import random
 # Create your views here.
 
@@ -126,3 +129,16 @@ def search_results(request):
     else:
         message="You haven't searched for any term"
         return render(request,'search.html',{"message":message})
+
+class ProfileViewSet(viewsets.ModelViewSet):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class PostViewSet(viewsets.ModelViewSet):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer

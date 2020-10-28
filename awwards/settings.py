@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'fontawesome_5',
     'bootstrap4',
     'cloudinary',
+    'rest_framework',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -145,3 +146,10 @@ cloudinary.config(
 )
 
 LOGOUT_REDIRECT_URL = "login"
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ],
+    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.NamespaceVersioning'
+}
