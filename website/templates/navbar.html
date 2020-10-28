@@ -1,4 +1,5 @@
 {% load crispy_forms_tags %}
+{% load static%}
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <a class="navbar-brand" href="/">
     <strong class="mr-4 brand"> Awwards</strong></a
@@ -38,8 +39,12 @@
           data-toggle="dropdown"
           aria-haspopup="true"
           aria-expanded="false"
-          ><img class="rounded-circle" src="{{ user.profile.profile_picture.url }}" height ='30px' width='30px'  alt="">  {{ user.username|title }}
-         
+          >
+          {%if user.profile.profile_picture%}
+          <img class="rounded-circle mr-2" src="{{ user.profile.profile_picture.url }}" height ='30px' width='30px'  alt="">  {{ user.username|title }}
+         {%else%}
+         <img class="rounded-circle mr-2" src="{% static 'images/image.jpg' %}" height ='30px' width='30px'  alt="">  {{ user.username|title }}
+         {% endif%}
         </a>
         <div
           class="dropdown-menu dropdown-primary"
