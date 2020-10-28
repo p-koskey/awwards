@@ -16,7 +16,7 @@ import random
 def welcome(request):
     try:
         posts = Post.objects.all().order_by("-posted")
-        if posts > 1:
+        if len(posts) > 1:
             rpost = random.randint(0, len(posts)-1)
             randompost = posts[rpost]
         else:
