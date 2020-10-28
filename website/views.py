@@ -124,7 +124,7 @@ def postdetail(request,post_id):
 @login_required(login_url='/accounts/login/')
 def search_results(request):
     current_user = request.user
-    post =Post.objects.get(user=current_user)
+    post =Post.objects.filter(user=current_user)
     if 'post' in request.GET and request.GET["post"]:
         search_term = request.GET.get("post")
         searched_posts = Post.search_post(search_term)
