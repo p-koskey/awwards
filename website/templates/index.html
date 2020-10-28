@@ -3,6 +3,7 @@
 {% load static %}
 {% load bootstrap4 %}
 <div class="container-fluid" >
+{% if randompost %}
   <a href="{% url 'details' post_id=randompost.id%}">
         <div class="card m-4" >
   <img src="{{ randompost.picture.url}}" class="card-img-top" alt="{{randompost.projectname}}" style=" width:100%;
@@ -18,6 +19,7 @@
                 </p>
   </div>
 </div></a>
+{% endif %}
     <h1 class="text-center hello">Projects</h1>
    
     {% if posts %}
