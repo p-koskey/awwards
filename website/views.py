@@ -15,9 +15,9 @@ import random
 
 def welcome(request):
     try:
-    posts = Post.objects.all().order_by("-posted")
-    rpost = random.randint(0, len(posts)-1)
-    randompost = posts[rpost]
+        posts = Post.objects.all().order_by("-posted")
+        rpost = random.randint(0, len(posts)-1)
+        randompost = posts[rpost]
     except Post.DoesNotExist:
         posts = None
     if request.method == 'POST':
