@@ -14,9 +14,15 @@ import random
 
 
 def welcome(request):
-    posts = Post.objects.all().order_by("-posted")
-    rpost = random.randint(0, len(posts)-1)
-    randompost = posts[rpost]
+    try:
+        posts = Post.objects.all().order_by("-posted")
+        if len(posts) > 1:
+            rpost = random.randint(0, len(posts)-1)
+            randompost = posts[rpost]
+        else:
+            randompost = None
+    except Post.DoesNotExist:
+        posts = None
     if request.method == 'POST':
         uform = PostForm(request.POST, request.FILES)
         if uform.is_valid():
