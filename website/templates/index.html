@@ -4,42 +4,58 @@
 {% load bootstrap4 %}
 <div class="container-fluid" >
 {% if randompost %}
-  <a href="{% url 'details' post_id=randompost.id%}">
+  
         <div class="card m-4" >
-  <img src="{{ randompost.picture.url}}" class="card-img-top" alt="{{randompost.projectname}}" style=" width:100%;
+
+        <div class="img-container">
+  <img src="{{ randompost.picture.url}}" class="card-img-top " alt="{{randompost.projectname}}" style=" width:100%;
    height:550px;
    object-fit:cover;
    object-position:50% 50%;">
-  <div class="card-body">
-  <h5 class="card-title">{{randompost.projectname|title}} 
-  <a class='float-right' href="{{randompost.link}} " target="_blank">Visit Site</a>
-   </h5> 
-     <p class="card-footer " ><img class="rounded-circle" src="{{randompost.user.profile.profile_picture.url}}"  height ='30px' width='30px' alt="">
-        {{randompost.user.username|title}} <span style="float:right">{{randompost.posted|date}}</span>
-                </p>
+   <div class="overlay">
+   <div class="bottom-left"><a  href="{{randompost.link}} " class="text-white m">Visit Site</a><a  href="{% url 'details' post_id=randompost.id%}" class="text-white ml-4">View Details</a>
+   </div>
+   
+  <div class="top-left"><h4>Site Of The Day</h4></div>
+  <div class="bottom-right"></div>
+  <div class="centered">
+  <h1>{{randompost.projectname|title}} </h1>
+  <h5> BY  {{randompost.user.username|upper}}</h5>
+  <h6>{{randompost.posted|date}}</h6></div>
   </div>
-</div></a>
+</div>
+
+</div>
 {% endif %}
-    <h1 class="text-center hello">Projects</h1>
    
     {% if posts %}
     <div class="d-flex flex-wrap justify-content-center">
         {% for post in posts %}
-        <a href="{% url 'details' post_id=post.id%}">
-        <div class="card col-lg-3 col-md-2 m-2 p-2" >
-  <img src="{{ post.picture.url}}" class="card-img-top" alt="{{post.projectname}}" style=" width:100%;
-   height:300px;
-   object-fit:cover;
+        <div class="card col-lg-3 col-md-2 m-3 p-2 zoom" >
+  <img src="{{ post.picture.url}}" class="card-img-top " id="home-img"alt="{{post.projectname}}" style=" width:100%; height:300px; object-fit:cover;
    object-position:50% 50%;">
+   
   <div class="card-body">
-  <h5 class="card-title">{{post.projectname|title}}
-  <a class='float-right' href="{{post.link}} " target="_blank">Visit Site</a>
+  <h5 class="card-title">
+  {% comment %} <a class='float-right' href=" " target="_blank">Visit Site</a> {% endcomment %}
+  
    </h5> 
-     <p class="card-footer " ><img class="rounded-circle" src="{{post.user.profile.profile_picture.url}}"  height ='30px' width='30px' alt="">
-        {{post.user.username|title}} <span style="float:right">{{post.posted|date}}</span>
+   <h4> <b>{{post.projectname|title}} </b></h4><br>
+   <p class="float-left"><img class="rounded-circle " src="{{post.user.profile.profile_picture.url}}"  height ='30px' width='30px' alt="">
+            <b>    {{post.user.username|title}} </b>
                 </p>
+     
+       <a href="{{post.link}}" class="badge badge-dark float-right mr-2">View Site</a>
+      <a href="{% url 'details' post_id=post.id%}" class="badge badge-dark float-right mr-2">View Details</a><br>
+    
+     
+      <hr>
+   <p class="float-right"> <i class="fas fa-map-marker-alt"></i>   {{post.user.profile.location}}</p>
+     <p class="float-left">{{post.posted|date}}</p> <br>         
+  
   </div>
-</div></a>
+  
+</div>
        
         {% endfor %}
     </div> 
