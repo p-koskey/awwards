@@ -1,6 +1,9 @@
 #hint_id_username, #hint_id_password1, #hint_id_password2 {
     display: none;
 }
+#id_bio{
+  height: 42px;
+}
 body{
     background-color: #E5E5E5;
 }

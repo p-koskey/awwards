@@ -9,13 +9,14 @@
         <div class="col-md-6">
             <div class="card" style="margin-top:2%; padding:20px">
                 <div class="card-body">
-                    <h5 class="card-title"><a>Update Your Profile</a></h5>
+                    <h5 class="card-title text-center"><b>Update Your Profile</b></h5>
+                    <hr>
                     <div class="card-text">
                         <form action="" method="post" enctype="multipart/form-data" novalidate>
                             {% csrf_token %}
                             {{ user_form|crispy }}
                             {{ prof_form|crispy }}
-                            <input type="submit" class="btn btn-sm btn-info" value="Save"/>
+                            <input type="submit" class="btn btn-sm btn-dark" value="Save"/>
                         </form>
                     </div>
                 </div>
