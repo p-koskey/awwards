@@ -34,7 +34,7 @@
           {%if user.profile.profile_picture%}
           <img class="rounded-circle mr-2" src="{{ user.profile.profile_picture.url }}" height ='30px' width='30px'  alt="" >  <b>{{ user.username|title }}</b>
          {%else%}
-         <img class="rounded-circle mr-2" src="{% static 'images/image.jpg' %}" height ='30px' width='30px'  alt="" ><  <b>{{ user.username|title }}</b>
+         <img class="rounded-circle mr-2" src="{% static 'images/default.png' %}" height ='30px' width='30px'  alt="" > <b>{{ user.username|title }}</b>
          {% endif%}
         </a>
         <div

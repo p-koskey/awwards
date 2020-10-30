@@ -19,7 +19,7 @@ def welcome(request):
     try:
         posts = Post.objects.all().order_by("-posted")
         if len(posts) > 1:
-            rpost = random.randint(0, len(posts)-1)
+            rpost = random.randint(1, len(posts)-1)
          
             randompost = Post.objects.get(pk=rpost)
             design = Rate.objects.filter(post=randompost).aggregate(Avg('design'))['design__avg']
