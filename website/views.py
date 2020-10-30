@@ -8,6 +8,8 @@ from .forms import RegisterForm, PostForm,UpdateUserForm,UpdateProfileForm, Rate
 from .models import Post,Profile, User,Rate
 from rest_framework import viewsets
 from rest_framework import permissions
+from django.db.models import Avg
+import math
 from .serializers import ProfileSerializer, UserSerializer, PostSerializer
 import random
 # Create your views here.
@@ -19,6 +21,20 @@ def welcome(request):
         if len(posts) > 1:
             rpost = random.randint(0, len(posts)-1)
             randompost = posts[rpost]
+            design = Rate.objects.filter(id=randompost.id).aggregate(Avg('design'))['design__avg']
+            usability = Rate.objects.filter(id=randompost.id).aggregate(Avg('usability'))['usability__avg']
+            content = Rate.objects.filter(id=randompost.id).aggregate(Avg('content'))['content__avg']
+            
+            if design:
+                designpercentage = (design/10) *100
+                usabilitypercentage = (usability/10) *100
+                contentpercentage = (content/10) *100
+             
+            else:
+                designpercentage = 0
+                usabilitypercentage = 0
+                contentpercentage = 0
+               
         else:
             randompost = None
     except Post.DoesNotExist:
@@ -32,7 +48,8 @@ def welcome(request):
             return HttpResponseRedirect(request.path_info)
     else:
         uform = PostForm()
-    return render(request, 'index.html',{'uform': uform,'posts':posts,'randompost':randompost})
+    return render(request, 'index.html',{'uform': uform,'posts':posts,'randompost':randompost,"design":design,"usability":usability,"content":content,"designpercentage":designpercentage,
+     "usabilitypercentage":usabilitypercentage,"contentpercentage":contentpercentage})
     
 
 def register(request):
@@ -76,38 +93,6 @@ def edit_profile(request, username):
 def postdetail(request,post_id):
 
     post= Post.objects.get(pk=post_id)
-    ratings = Rate.objects.filter(post_id=post_id)
-    design = Rate.objects.filter(post_id=post_id).values_list('design',flat=True)
-    usability = Rate.objects.filter(post_id=post_id).values_list('usability',flat=True)
-    content = Rate.objects.filter(post_id=post_id).values_list('content',flat=True)
-    total_design=0
-    total_usability=0
-    total_content = 0
-    print(design)
-    for rate in design:
-        total_design+=rate
-    print(total_design)
-
-    for rate in usability:
-        total_usability+=rate
-    print(total_usability)
-
-    
-    for rate in content:
-        total_content+=rate
-    print(total_content)
-
-    total=(total_design+total_content+total_usability)/3
-
-
-    post.design = total_design
-    post.usability = total_usability
-    post.content = total_content
-    post.total = total
-
-    post.save()
-
-
     if request.method =='POST':
         form = RateForm(request.POST,request.FILES)
         if form.is_valid():
@@ -118,9 +103,18 @@ def postdetail(request,post_id):
             rate.save()
     else:
         form = RateForm()
-
-       
-    return render(request,"postdetail.html", {'post':post,"ratings":ratings, 'form':form,})
+    design = Rate.objects.filter(post_id=post_id).aggregate(Avg('design'))['design__avg']
+    usability = Rate.objects.filter(post_id=post_id).aggregate(Avg('usability'))['usability__avg']
+    content = Rate.objects.filter(post_id=post_id).aggregate(Avg('content'))['content__avg']
+    total = Rate.objects.filter(post_id=post_id).aggregate(Avg('total'))['total__avg']
+    
+    designpercentage = (design/10) *100
+    usabilitypercentage = (usability/10) *100
+    contentpercentage = (content/10) *100
+    totalpercentage = (total/10)*100
+  
+    return render(request,"postdetail.html", {'post':post,"design":design,"usability":usability,"content":content,"total":total,"designpercentage":designpercentage,
+     "usabilitypercentage":usabilitypercentage,"contentpercentage":contentpercentage,'form':form,})
 @login_required(login_url='/accounts/login/')
 def search_results(request):
     current_user = request.user

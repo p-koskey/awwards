@@ -26,19 +26,40 @@
 
                 <div class="card-content mt-2">
 
-                    <h4 class="card-title text-center"><b>{{post.projectinfo}}<b></h4>
+                    <h6 class="card-title text-center"><b>{{post.projectinfo}}<b></h6>
                     
                 <div>
-                 <button class="btn badge badge-dark m-4 float-right" data-toggle="modal" data-target="#rate"  >
-        Rate this Project
-      </button>
-      {% for ratings in ratings %}
-      <h6 class="float-left text-primary m-4">Design : {{ratings.design}}</h6>
-      <h6 class="float-left text-success m-4">Usability : {{ratings.usability}} </h6>
-      <h6 class="float-left text-danger m-4">Content : {{ratings.content}}</h6>
-      
+                 
+      <div class="container">
+    <h6>Design</h6>
+    <div class="progress">
+        <div class="progress-bar progress-bar-striped bg-success" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width:{{designpercentage}}%">
+        Design : {{design|floatformat}}
+        </div>
+    </div>
+    </div></br>
+     <div class="container">
+    <h6>Usability</h6>
+    <div class="progress">
+        <div class="progress-bar progress-bar-striped bg-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width:{{usabilitypercentage}}%">
+        Usability : {{usability|floatformat}} 
+        </div>
+    </div>
+    </div></br>
+     <div class="container">
+    <h6>Content</h6>
+    <div class="progress">
+        <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width:{{contentpercentage}}%">
+        Content : {{content|floatformat}}
+        </div>
+    </div>
+    </div>
       </div>
-      <h5 class="float-left mb-4" >Total Score: {{ratings.total}}</h5>{% endfor%}
+      <br>
+      <h5 class="text-center text-success mb-2" >Total Score: {{total|floatformat}}</h5>
+      <button class="btn btn-info float-right m-2" data-toggle="modal" data-target="#rate"  >
+        Rate this Project
+      </button><br>
                 </div>
                             </div>
         </div>
