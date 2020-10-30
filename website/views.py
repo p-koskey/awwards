@@ -20,20 +20,24 @@ def welcome(request):
         posts = Post.objects.all().order_by("-posted")
         if len(posts) > 1:
             rpost = random.randint(0, len(posts)-1)
-            randompost = posts[rpost]
-            design = Rate.objects.filter(id=randompost.id).aggregate(Avg('design'))['design__avg']
-            usability = Rate.objects.filter(id=randompost.id).aggregate(Avg('usability'))['usability__avg']
-            content = Rate.objects.filter(id=randompost.id).aggregate(Avg('content'))['content__avg']
-            
-            if design:
-                designpercentage = (design/10) *100
-                usabilitypercentage = (usability/10) *100
-                contentpercentage = (content/10) *100
-             
-            else:
+         
+            randompost = Post.objects.get(pk=rpost)
+            design = Rate.objects.filter(post=randompost).aggregate(Avg('design'))['design__avg']
+            usability = Rate.objects.filter(post=randompost).aggregate(Avg('usability'))['usability__avg']
+            content = Rate.objects.filter(post=randompost).aggregate(Avg('content'))['content__avg']
+         
+            if design is None:
+                design = 0
+                content = 0
+                usability = 0
                 designpercentage = 0
                 usabilitypercentage = 0
                 contentpercentage = 0
+             
+            else:
+                designpercentage = (design/10) *100
+                usabilitypercentage = (usability/10) *100
+                contentpercentage = (content/10) *100
                
         else:
             randompost = None
@@ -99,7 +103,7 @@ def postdetail(request,post_id):
             rate = form.save(commit=False)
             rate.post= post
             rate.user = request.user
-            rate.total = (rate.design+rate.usability+rate.content)/2
+            rate.total = (rate.design+rate.usability+rate.content)/3
             rate.save()
     else:
         form = RateForm()
@@ -108,11 +112,20 @@ def postdetail(request,post_id):
     content = Rate.objects.filter(post_id=post_id).aggregate(Avg('content'))['content__avg']
     total = Rate.objects.filter(post_id=post_id).aggregate(Avg('total'))['total__avg']
     
-    designpercentage = (design/10) *100
-    usabilitypercentage = (usability/10) *100
-    contentpercentage = (content/10) *100
-    totalpercentage = (total/10)*100
-  
+    if design is None:
+        design = 0
+        content = 0
+        usability = 0
+        total = 0       
+        designpercentage = 0
+        usabilitypercentage = 0
+        contentpercentage = 0
+        
+    else:
+        designpercentage = (design/10) *100
+        usabilitypercentage = (usability/10) *100
+        contentpercentage = (content/10) *100
+
     return render(request,"postdetail.html", {'post':post,"design":design,"usability":usability,"content":content,"total":total,"designpercentage":designpercentage,
      "usabilitypercentage":usabilitypercentage,"contentpercentage":contentpercentage,'form':form,})
 @login_required(login_url='/accounts/login/')
