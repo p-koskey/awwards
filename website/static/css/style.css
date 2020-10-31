@@ -70,3 +70,10 @@ body{
   .zoom:hover {
     transform: scale(1.02); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
   }
+
+  .progress-cont {
+  width:80%; 
+  top: 70%;
+  left: 40%;
+  margin-top: 360px;
+  }
